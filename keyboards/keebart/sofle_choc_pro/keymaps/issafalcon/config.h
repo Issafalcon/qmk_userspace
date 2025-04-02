@@ -1,0 +1,6 @@
+#pragma once
+
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+#define CHORDAL_HOLD
+#define TAPPING_TERM 200
+#define PERMISSIVE_HOLD
