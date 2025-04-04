@@ -295,11 +295,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_SPC);
                 tap_code(KC_C);
                 tap_code(KC_A);
+                clear_keyboard_but_mods();
             }
         case NVIM_MARK:
             if (record->event.pressed) {
                 tap_code(UK_BSLS);
                 tap_code(KC_M);
+                clear_keyboard_but_mods();
             }
     }
     return true;
@@ -327,5 +329,39 @@ bool caps_word_press_user(uint16_t keycode) {
             return true;
         default:
             return false; // Deactivate Caps Word.
+    }
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SPACE:
+        case ENTER:
+        case HOME_D:
+        case HOME_J:
+            // Immediately select the hold action when another key is pressed.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        // Everything except home row shift mods and NAV and SYM layer mods
+        case HOME_A:
+        case HOME_S:
+        case HOME_F:
+        case HOME_H:
+        case HOME_K:
+        case HOME_J:
+        case TAB:
+        case BSPC:
+        case R_BSPC:
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
     }
 }
