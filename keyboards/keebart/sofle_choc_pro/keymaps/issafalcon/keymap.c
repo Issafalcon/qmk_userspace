@@ -1,18 +1,15 @@
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "action.h"
+#include "keycode_config.h"
 #include "keycodes.h"
+#include "modifiers.h"
+#include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 #include "keymap_uk.h"
-
-enum layers {
-    _QWERTY = 0, // default layer
-    _FUN,        // function layer
-    _NAV,        // navigation layer
-    _SYM,        // symbols layer
-    _NUM,        // numbers layer
-    _NVIM,       // nvim layer
-};
+#include "models/layers_enum.h"
+#include "features/chordal_hold.h"
+#include "features/encoder.h"
 
 #define HOME_A LGUI_T(KC_A)
 #define HOME_S LALT_T(KC_S)
@@ -43,27 +40,39 @@ enum layers {
 
 #define SFT_TAB LSFT(KC_TAB)
 
-enum custom_keycodes { KC_QWERTY = SAFE_RANGE, KC_NAV, KC_SYM, KC_NMBR, KC_FUN, ALT_TAB, ALT_SFT_TAB, KC_SFT_TAB, KC_TMUX, NVIM_CA };
-
 // clang-format off
+enum custom_keycodes {
+    KC_QWERTY = SAFE_RANGE,
+    KC_NAV,
+    KC_SYM,
+    KC_NMBR,
+    KC_FUN,
+    ALT_TAB,
+    ALT_SFT_TAB,
+    KC_SFT_TAB,
+    KC_TMUX,
+    NVIM_CA,
+    NVIM_MARK
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────┬────────┬────────┬────────┬────────┬──────┐                                 ┌────────┬────────┬────────┬────────┬───┬──────┐
-//    │ no  │   1    │   2    │   3    │   4    │  5   │                                 │   6    │   7    │   8    │   9    │ 0 │  no  │
-//    ├─────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
-//    │ tab │   q    │   w    │   e    │   r    │  t   │                                 │   y    │   u    │   i    │   o    │ p │ bspc │
-//    ├─────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
-//    │ esc │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │ HOME_H │ HOME_J │ HOME_K │ HOME_L │ ; │  `   │
-//    ├─────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼────────┼────────┼────────┼────────┼───┼──────┤
-//    │ no  │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │   n    │   m    │   ,    │   .    │ / │  '   │
-//    └─────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼────────┼────────┼────────┼────────┴───┴──────┘
-//                            │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │  DEL   │   no   │   no   │
-//                            └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴────────┴────────┴────────┘
+//    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌────────┬────────┬────────┬────────┬───┬──────┐
+//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │   6    │   7    │   8    │   9    │ 0 │  no  │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
+//    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │   y    │   u    │   i    │   o    │ p │ bspc │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
+//    │      esc      │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │ HOME_H │ HOME_J │ HOME_K │ HOME_L │ ; │  `   │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼────────┼────────┼────────┼────────┼───┼──────┤
+//    │ OSM(MOD_LSFT) │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │   n    │   m    │   ,    │   .    │ / │  '   │
+//    └───────────────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼────────┼────────┼────────┼────────┴───┴──────┘
+//                                      │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │  DEL   │   no   │   no   │
+//                                      └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴────────┴────────┴────────┘
 [_QWERTY] = LAYOUT_split_4x6_5(
-  XXXXXXX , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6   , KC_7    , KC_8    , KC_9   , KC_0    , XXXXXXX,
-  KC_TAB  , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y   , KC_U    , KC_I    , KC_O   , KC_P    , KC_BSPC,
-  KC_ESC  , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         HOME_H , HOME_J  , HOME_K  , HOME_L , KC_SCLN , KC_GRV ,
-  XXXXXXX , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N   , KC_M    , KC_COMM , KC_DOT , KC_SLSH , KC_QUOT,
-                              XXXXXXX , KC_LGUI , KC_TMUX , TAB     , SPACE ,     ENTER , BSPC    , DEL    , XXXXXXX , XXXXXXX
+  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6   , KC_7    , KC_8    , KC_9   , KC_0    , XXXXXXX,
+  KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y   , KC_U    , KC_I    , KC_O   , KC_P    , KC_BSPC,
+  KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         HOME_H , HOME_J  , HOME_K  , HOME_L , KC_SCLN , KC_GRV ,
+  OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N   , KC_M    , KC_COMM , KC_DOT , KC_SLSH , KC_QUOT,
+                                    XXXXXXX , KC_LGUI , KC_TMUX , TAB     , SPACE ,     ENTER , BSPC    , DEL    , XXXXXXX , XXXXXXX
 ),
 
 //    ┌─────────────┬──────┬───────┬────────┬───────┬────────┐                           ┌──────┬──────┬──────┬──────┬─────┬─────┐
@@ -123,23 +132,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    _______ , _______ , _______ , _______ , _______ ,     _______ , _______ , _______ , _______ , _______
 ),
 
-//    ┌─────┬─────────┬─────────┬─────────┬─────────┬─────────┐                           ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────┐
-//    │     │         │         │         │         │         │                           │         │         │         │         │         │     │
-//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │         │ LCTL(2) │ LCTL(3) │ LCTL(4) │ LCTL(5) │                           │ LCTL(6) │ LCTL(7) │ LCTL(8) │ LCTL(9) │ LCTL(0) │     │
-//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │ LALT(1) │ LALT(2) │ LALT(3) │ LALT(4) │ LALT(5) │                           │ LALT(6) │ LALT(7) │ LALT(8) │ LALT(9) │ LALT(0) │     │
-//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐               ┌─────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │         │         │         │         │         │     │               │     │         │         │         │         │         │     │
-//    └─────┴─────────┴─────────┼─────────┼─────────┼─────────┼─────┼─────┐   ┌─────┼─────┼─────────┼─────────┼─────────┼─────────┴─────────┴─────┘
-//                              │         │         │         │     │     │   │     │     │         │         │         │
-//                              └─────────┴─────────┴─────────┴─────┴─────┘   └─────┴─────┴─────────┴─────────┴─────────┘
+//    ┌─────┬─────────┬─────────┬─────────┬─────────┬─────────┐                           ┌─────────┬───────────┬─────────┬─────────┬─────────┬─────┐
+//    │     │         │         │         │         │         │                           │         │           │         │         │         │     │
+//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
+//    │     │         │ LCTL(2) │ LCTL(3) │ LCTL(4) │ LCTL(5) │                           │ LCTL(6) │  LCTL(7)  │ LCTL(8) │ LCTL(9) │ LCTL(0) │     │
+//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
+//    │     │ NVIM_CA │ LALT(2) │ LALT(3) │ LALT(4) │ LALT(5) │                           │ LALT(6) │  LALT(7)  │ LALT(8) │ LALT(9) │ LALT(0) │     │
+//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐               ┌─────┼─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
+//    │     │         │         │         │         │         │     │               │     │         │ NVIM_MARK │         │         │         │     │
+//    └─────┴─────────┴─────────┼─────────┼─────────┼─────────┼─────┼─────┐   ┌─────┼─────┼─────────┼───────────┼─────────┼─────────┴─────────┴─────┘
+//                              │         │         │         │     │     │   │     │     │         │           │         │
+//                              └─────────┴─────────┴─────────┴─────┴─────┘   └─────┴─────┴─────────┴───────────┴─────────┘
 [_NVIM] = LAYOUT_split_4x6_5(
-  _______ , _______    , _______    , _______    , _______    , _______    ,                                             _______    , _______    , _______    , _______    , _______    , _______,
-  _______ , _______    , LCTL(KC_2) , LCTL(KC_3) , LCTL(KC_4) , LCTL(KC_5) ,                                             LCTL(KC_6) , LCTL(KC_7) , LCTL(KC_8) , LCTL(KC_9) , LCTL(KC_0) , _______,
-  _______ , LALT(KC_1) , LALT(KC_2) , LALT(KC_3) , LALT(KC_4) , LALT(KC_5) ,                                             LALT(KC_6) , LALT(KC_7) , LALT(KC_8) , LALT(KC_9) , LALT(KC_0) , _______,
-  _______ , _______    , _______    , _______    , _______    , _______    , _______ ,                         _______ , _______    , _______    , _______    , _______    , _______    , _______,
-                                      _______    , _______    , _______    , _______ , _______ ,     _______ , _______ , _______    , _______    , _______
+  _______ , _______ , _______    , _______    , _______    , _______    ,                                             _______    , _______    , _______    , _______    , _______    , _______,
+  _______ , _______ , LCTL(KC_2) , LCTL(KC_3) , LCTL(KC_4) , LCTL(KC_5) ,                                             LCTL(KC_6) , LCTL(KC_7) , LCTL(KC_8) , LCTL(KC_9) , LCTL(KC_0) , _______,
+  _______ , NVIM_CA , LALT(KC_2) , LALT(KC_3) , LALT(KC_4) , LALT(KC_5) ,                                             LALT(KC_6) , LALT(KC_7) , LALT(KC_8) , LALT(KC_9) , LALT(KC_0) , _______,
+  _______ , _______ , _______    , _______    , _______    , _______    , _______ ,                         _______ , _______    , NVIM_MARK  , _______    , _______    , _______    , _______,
+                                   _______    , _______    , _______    , _______ , _______ ,     _______ , _______ , _______    , _______    , _______
 ),
 
 //    ┌─────────┬────────┬────────┬───────┬───────┬────────┐                           ┌─────┬─────┬─────┬─────┬─────┬─────┐
@@ -161,26 +170,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   _______ , _______ , _______ , _______ , _______ ,     _______ , _______ , _______ , _______ , _______
 )
 };
-
-const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
-    LAYOUT_split_4x6_5(
-        'L', 'L', 'L', 'L', 'L', 'L',           'R', 'R', 'R', 'R', 'R', 'R',
-        'L', 'L', 'L', 'L', 'L', 'L',           'R', 'R', 'R', 'R', 'R', 'R',
-        'L', 'L', 'L', 'L', 'L', 'L',           'R', 'R', 'R', 'R', 'R', 'R',
-        'L', 'L', 'L', 'L', 'L', 'L','L',  'R', 'R', 'R', 'R', 'R', 'R', 'R',
-                    '*', '*', '*',  '*', '*', '*', '*', '*', '*', '*'
-    );
-
-#if defined(ENCODER_MAP_ENABLE)
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_QWERTY] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
-    [_NAV] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_FUN] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_SYM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_NUM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_NVIM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) }
-};
-#endif
 
 // clang-format on
 void update_swapper(bool *active, uint16_t cmdish, uint16_t tabish, uint16_t trigger, uint16_t prv, bool *other_active, uint16_t keycode, keyrecord_t *record) {
@@ -306,6 +295,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_SPC);
                 tap_code(KC_C);
                 tap_code(KC_A);
+            }
+        case NVIM_MARK:
+            if (record->event.pressed) {
+                tap_code(UK_BSLS);
+                tap_code(KC_M);
             }
     }
     return true;
