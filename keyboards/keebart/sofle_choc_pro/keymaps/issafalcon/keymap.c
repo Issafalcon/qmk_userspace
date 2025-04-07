@@ -16,10 +16,10 @@
 #define HOME_D LSFT_T(KC_D)
 #define HOME_F LCTL_T(KC_F)
 
-#define HOME_H RCTL_T(KC_H)
-#define HOME_J RSFT_T(KC_J)
-#define HOME_K LALT_T(KC_K)
-#define HOME_L RGUI_T(KC_L)
+#define HOME_J RCTL_T(KC_J)
+#define HOME_K RSFT_T(KC_K)
+#define HOME_L LALT_T(KC_L)
+#define HOME_SCLN RGUI_T(KC_SCLN)
 
 #define SPACE LT(_NAV, KC_SPC)
 #define ENTER LT(_SYM, KC_ENT)
@@ -56,23 +56,23 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌────────┬────────┬────────┬────────┬───┬──────┐
-//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │   6    │   7    │   8    │   9    │ 0 │  no  │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
-//    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │   y    │   u    │   i    │   o    │ p │ bspc │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├────────┼────────┼────────┼────────┼───┼──────┤
-//    │      esc      │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │ HOME_H │ HOME_J │ HOME_K │ HOME_L │ ; │  `   │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼────────┼────────┼────────┼────────┼───┼──────┤
-//    │ OSM(MOD_LSFT) │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │   n    │   m    │   ,    │   .    │ / │  '   │
-//    └───────────────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼────────┼────────┼────────┼────────┴───┴──────┘
-//                                      │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │  DEL   │   no   │   no   │
-//                                      └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴────────┴────────┴────────┘
+//    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌─────┬────────┬────────┬────────┬───────────┬──────┐
+//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │  6  │   7    │   8    │   9    │     0     │  no  │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼──────┤
+//    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │  y  │   u    │   i    │   o    │     p     │ bspc │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼──────┤
+//    │      esc      │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │  h  │ HOME_J │ HOME_K │ HOME_L │ HOME_SCLN │  `   │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼─────┼────────┼────────┼────────┼───────────┼──────┤
+//    │ OSM(MOD_LSFT) │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │  n  │   m    │   ,    │   .    │     /     │  '   │
+//    └───────────────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼─────┼────────┼────────┼────────┴───────────┴──────┘
+//                                      │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │ DEL │   no   │   no   │
+//                                      └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴─────┴────────┴────────┘
 [_QWERTY] = LAYOUT_split_4x6_5(
-  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6   , KC_7    , KC_8    , KC_9   , KC_0    , XXXXXXX,
-  KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y   , KC_U    , KC_I    , KC_O   , KC_P    , KC_BSPC,
-  KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         HOME_H , HOME_J  , HOME_K  , HOME_L , KC_SCLN , KC_GRV ,
-  OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N   , KC_M    , KC_COMM , KC_DOT , KC_SLSH , KC_QUOT,
-                                    XXXXXXX , KC_LGUI , KC_TMUX , TAB     , SPACE ,     ENTER , BSPC    , DEL    , XXXXXXX , XXXXXXX
+  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6 , KC_7    , KC_8    , KC_9   , KC_0      , XXXXXXX,
+  KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y , KC_U    , KC_I    , KC_O   , KC_P      , KC_BSPC,
+  KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         KC_H , HOME_J  , HOME_K  , HOME_L , HOME_SCLN , KC_GRV ,
+  OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N , KC_M    , KC_COMM , KC_DOT , KC_SLSH   , KC_QUOT,
+                                    XXXXXXX , KC_LGUI , KC_TMUX , TAB     , SPACE ,     ENTER , BSPC    , DEL  , XXXXXXX , XXXXXXX
 ),
 
 //    ┌─────────────┬──────┬───────┬────────┬───────┬────────┐                           ┌──────┬──────┬──────┬──────┬─────┬─────┐
@@ -337,7 +337,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case SPACE:
         case ENTER:
         case HOME_D:
-        case HOME_J:
+        case HOME_K:
             // Immediately select the hold action when another key is pressed.
             return true;
         default:
@@ -352,9 +352,9 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
         case HOME_A:
         case HOME_S:
         case HOME_F:
-        case HOME_H:
-        case HOME_K:
         case HOME_J:
+        case HOME_L:
+        case HOME_SCLN:
         case TAB:
         case BSPC:
         case R_BSPC:
