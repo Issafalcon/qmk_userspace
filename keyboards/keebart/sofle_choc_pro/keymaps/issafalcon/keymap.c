@@ -1,9 +1,11 @@
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
+#include <stdint.h>
 #include "action.h"
 #include "keycode_config.h"
 #include "keycodes.h"
 #include "modifiers.h"
+#include "progmem.h"
 #include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 #include "keymap_uk.h"
@@ -52,26 +54,34 @@ enum custom_keycodes {
     KC_SFT_TAB,
     KC_TMUX,
     NVIM_CA,
-    NVIM_MARK
+    NVIM_MARK,
+    NVIM_PD,
+    NVIM_ND,
+};
+
+const uint16_t PROGMEM shift_combo[] = {TAB, BSPC, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(shift_combo, OSM(MOD_LSFT)),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌─────┬────────┬────────┬────────┬───────────┬──────┐
-//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │  6  │   7    │   8    │   9    │     0     │  no  │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼──────┤
-//    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │  y  │   u    │   i    │   o    │     p     │ bspc │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼──────┤
-//    │      esc      │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │  h  │ HOME_J │ HOME_K │ HOME_L │ HOME_SCLN │  `   │
-//    ├───────────────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼─────┼────────┼────────┼────────┼───────────┼──────┤
-//    │ OSM(MOD_LSFT) │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │  n  │   m    │   ,    │   .    │     /     │  '   │
-//    └───────────────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼─────┼────────┼────────┼────────┴───────────┴──────┘
+//    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌─────┬────────┬────────┬────────┬───────────┬───────────┐
+//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │  6  │   7    │   8    │   9    │     0     │ TG(_GAME) │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼───────────┤
+//    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │  y  │   u    │   i    │   o    │     p     │   bspc    │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼───────────┤
+//    │      esc      │ HOME_A │ HOME_S │ HOME_D │ HOME_F │  g   │                                 │  h  │ HOME_J │ HOME_K │ HOME_L │ HOME_SCLN │     `     │
+//    ├───────────────┼────────┼────────┼────────┼────────┼──────┼──────┐                   ┌──────┼─────┼────────┼────────┼────────┼───────────┼───────────┤
+//    │ OSM(MOD_LSFT) │   z    │   x    │   c    │   v    │  b   │ mute │                   │ mply │  n  │   m    │   ,    │   .    │     /     │     '     │
+//    └───────────────┴────────┴────────┼────────┼────────┼──────┼──────┼───────┐   ┌───────┼──────┼─────┼────────┼────────┼────────┴───────────┴───────────┘
 //                                      │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │ DEL │   no   │   no   │
 //                                      └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴─────┴────────┴────────┘
 [_QWERTY] = LAYOUT_split_4x6_5(
-  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6 , KC_7    , KC_8    , KC_9   , KC_0      , XXXXXXX,
-  KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y , KC_U    , KC_I    , KC_O   , KC_P      , KC_BSPC,
-  KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         KC_H , HOME_J  , HOME_K  , HOME_L , HOME_SCLN , KC_GRV ,
-  OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N , KC_M    , KC_COMM , KC_DOT , KC_SLSH   , KC_QUOT,
+  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6 , KC_7    , KC_8    , KC_9   , KC_0      , TG(_GAME),
+  KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y , KC_U    , KC_I    , KC_O   , KC_P      , KC_BSPC  ,
+  KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         KC_H , HOME_J  , HOME_K  , HOME_L , HOME_SCLN , KC_GRV   ,
+  OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N , KC_M    , KC_COMM , KC_DOT , KC_SLSH   , KC_QUOT  ,
                                     XXXXXXX , KC_LGUI , KC_TMUX , TAB     , SPACE ,     ENTER , BSPC    , DEL  , XXXXXXX , XXXXXXX
 ),
 
@@ -137,7 +147,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
 //    │     │         │ LCTL(2) │ LCTL(3) │ LCTL(4) │ LCTL(5) │                           │ LCTL(6) │  LCTL(7)  │ LCTL(8) │ LCTL(9) │ LCTL(0) │     │
 //    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┤                           ├─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │ NVIM_CA │ LALT(2) │ LALT(3) │ LALT(4) │ LALT(5) │                           │ LALT(6) │  LALT(7)  │ LALT(8) │ LALT(9) │ LALT(0) │     │
+//    │     │ NVIM_CA │ LALT(2) │ LALT(3) │ LALT(4) │ NVIM_PD │                           │ NVIM_ND │  LALT(7)  │ LALT(8) │ LALT(9) │ LALT(0) │     │
 //    ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐               ┌─────┼─────────┼───────────┼─────────┼─────────┼─────────┼─────┤
 //    │     │         │         │         │         │         │     │               │     │         │ NVIM_MARK │         │         │         │     │
 //    └─────┴─────────┴─────────┼─────────┼─────────┼─────────┼─────┼─────┐   ┌─────┼─────┼─────────┼───────────┼─────────┼─────────┴─────────┴─────┘
@@ -146,28 +156,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_NVIM] = LAYOUT_split_4x6_5(
   _______ , _______ , _______    , _______    , _______    , _______    ,                                             _______    , _______    , _______    , _______    , _______    , _______,
   _______ , _______ , LCTL(KC_2) , LCTL(KC_3) , LCTL(KC_4) , LCTL(KC_5) ,                                             LCTL(KC_6) , LCTL(KC_7) , LCTL(KC_8) , LCTL(KC_9) , LCTL(KC_0) , _______,
-  _______ , NVIM_CA , LALT(KC_2) , LALT(KC_3) , LALT(KC_4) , LALT(KC_5) ,                                             LALT(KC_6) , LALT(KC_7) , LALT(KC_8) , LALT(KC_9) , LALT(KC_0) , _______,
+  _______ , NVIM_CA , LALT(KC_2) , LALT(KC_3) , LALT(KC_4) , NVIM_PD    ,                                             NVIM_ND    , LALT(KC_7) , LALT(KC_8) , LALT(KC_9) , LALT(KC_0) , _______,
   _______ , _______ , _______    , _______    , _______    , _______    , _______ ,                         _______ , _______    , NVIM_MARK  , _______    , _______    , _______    , _______,
                                    _______    , _______    , _______    , _______ , _______ ,     _______ , _______ , _______    , _______    , _______
 ),
 
-//    ┌─────────┬────────┬────────┬───────┬───────┬────────┐                           ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │         │        │        │       │       │        │                           │     │     │     │     │     │     │
-//    ├─────────┼────────┼────────┼───────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │ QK_BOOT │ qWERTY │        │       │       │        │                           │     │ f7  │ f8  │ f9  │ f12 │ f15 │
-//    ├─────────┼────────┼────────┼───────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │  lgui  │ O_LALT │ O_SFT │ O_CTL │ O_RALT │                           │     │ f4  │ f5  │ f6  │ f11 │ f14 │
-//    ├─────────┼────────┼────────┼───────┼───────┼────────┼─────┐               ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
-//    │         │        │        │       │       │        │     │               │     │     │ f1  │ f2  │ f3  │ f10 │ f13 │
-//    └─────────┴────────┴────────┼───────┼───────┼────────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┴─────┴─────┘
-//                                │       │       │        │     │     │   │     │     │     │     │     │
-//                                └───────┴───────┴────────┴─────┴─────┘   └─────┴─────┴─────┴─────┴─────┘
+//    ┌─────┬────────┬────────┬───────┬───────┬────────┐                           ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │     │        │        │       │       │        │                           │     │     │     │     │     │     │
+//    ├─────┼────────┼────────┼───────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │ qWERTY │        │       │       │        │                           │     │ f7  │ f8  │ f9  │ f12 │ f15 │
+//    ├─────┼────────┼────────┼───────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │  lgui  │ O_LALT │ O_SFT │ O_CTL │ O_RALT │                           │     │ f4  │ f5  │ f6  │ f11 │ f14 │
+//    ├─────┼────────┼────────┼───────┼───────┼────────┼─────┐               ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │        │        │       │       │        │     │               │     │     │ f1  │ f2  │ f3  │ f10 │ f13 │
+//    └─────┴────────┴────────┼───────┼───────┼────────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┴─────┴─────┘
+//                            │       │       │        │     │     │   │     │     │     │     │     │
+//                            └───────┴───────┴────────┴─────┴─────┘   └─────┴─────┴─────┴─────┴─────┘
 [_FUN] = LAYOUT_split_4x6_5(
   _______ , _______   , _______ , _______ , _______ , _______ ,                                             _______ , _______ , _______ , _______ , _______ , _______,
-  QK_BOOT , KC_QWERTY , _______ , _______ , _______ , _______ ,                                             _______ , KC_F7   , KC_F8   , KC_F9   , KC_F12  , KC_F15 ,
+  _______ , KC_QWERTY , _______ , _______ , _______ , _______ ,                                             _______ , KC_F7   , KC_F8   , KC_F9   , KC_F12  , KC_F15 ,
   _______ , KC_LGUI   , O_LALT  , O_SFT   , O_CTL   , O_RALT  ,                                             _______ , KC_F4   , KC_F5   , KC_F6   , KC_F11  , KC_F14 ,
   _______ , _______   , _______ , _______ , _______ , _______ , _______ ,                         _______ , _______ , KC_F1   , KC_F2   , KC_F3   , KC_F10  , KC_F13 ,
                                   _______ , _______ , _______ , _______ , _______ ,     _______ , _______ , _______ , _______ , _______
+),
+
+//    ┌──────┬───┬───┬────┬─────┬──────┐                                       ┌────┬────┬────┬────┬────┬───────────┐
+//    │ esc  │ 1 │ 2 │ 3  │  4  │  5   │                                       │ no │ no │ no │ no │ no │ TG(_GAME) │
+//    ├──────┼───┼───┼────┼─────┼──────┤                                       ├────┼────┼────┼────┼────┼───────────┤
+//    │ tab  │ q │ w │ e  │  r  │  t   │                                       │ no │ no │ no │ no │ no │    no     │
+//    ├──────┼───┼───┼────┼─────┼──────┤                                       ├────┼────┼────┼────┼────┼───────────┤
+//    │ lctl │ a │ s │ d  │  f  │  g   │                                       │ no │ no │ no │ no │ no │    no     │
+//    ├──────┼───┼───┼────┼─────┼──────┼──────┐                           ┌────┼────┼────┼────┼────┼────┼───────────┤
+//    │ lsft │ z │ x │ c  │  v  │  b   │  no  │                           │ no │ no │ no │ no │ no │ no │    no     │
+//    └──────┴───┴───┼────┼─────┼──────┼──────┼──────────────────┐   ┌────┼────┼────┼────┼────┼────┴────┴───────────┘
+//                   │ no │ spc │ lalt │ lalt │ LT(_GAMEFN, spc) │   │ no │ no │ no │ no │ no │
+//                   └────┴─────┴──────┴──────┴──────────────────┘   └────┴────┴────┴────┴────┘
+[_GAME] = LAYOUT_split_4x6_5(
+  KC_ESC  , KC_1 , KC_2 , KC_3    , KC_4   , KC_5    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , TG(_GAME),
+  KC_TAB  , KC_Q , KC_W , KC_E    , KC_R   , KC_T    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+  KC_LCTL , KC_A , KC_S , KC_D    , KC_F   , KC_G    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+  KC_LSFT , KC_Z , KC_X , KC_C    , KC_V   , KC_B    , XXXXXXX ,                                     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+                          XXXXXXX , KC_SPC , KC_LALT , KC_LALT , LT(_GAMEFN, KC_SPC) ,     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
+),
+
+//    ┌────┬────┬────┬────┬─────┬────┐                       ┌────┬────┬────┬────┬────┬───────────┐
+//    │ no │ no │ no │ no │ no  │ no │                       │ no │ no │ no │ no │ no │ TG(_GAME) │
+//    ├────┼────┼────┼────┼─────┼────┤                       ├────┼────┼────┼────┼────┼───────────┤
+//    │ no │ f7 │ f8 │ f9 │ f12 │ no │                       │ no │ no │ no │ no │ no │    no     │
+//    ├────┼────┼────┼────┼─────┼────┤                       ├────┼────┼────┼────┼────┼───────────┤
+//    │ no │ f4 │ f5 │ f6 │ f11 │ no │                       │ no │ no │ no │ no │ no │    no     │
+//    ├────┼────┼────┼────┼─────┼────┼────┐             ┌────┼────┼────┼────┼────┼────┼───────────┤
+//    │ no │ f1 │ f2 │ f3 │ f10 │ no │ no │             │ no │ no │ no │ no │ no │ no │    no     │
+//    └────┴────┴────┼────┼─────┼────┼────┼────┐   ┌────┼────┼────┼────┼────┼────┴────┴───────────┘
+//                   │ no │ no  │ no │ no │ no │   │ no │ no │ no │ no │ no │
+//                   └────┴─────┴────┴────┴────┘   └────┴────┴────┴────┴────┘
+[_GAMEFN] = LAYOUT_split_4x6_5(
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                                             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , TG(_GAME),
+  XXXXXXX , KC_F7   , KC_F8   , KC_F9   , KC_F12  , XXXXXXX ,                                             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+  XXXXXXX , KC_F4   , KC_F5   , KC_F6   , KC_F11  , XXXXXXX ,                                             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+  XXXXXXX , KC_F1   , KC_F2   , KC_F3   , KC_F10  , XXXXXXX , XXXXXXX ,                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+                                XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
 )
 };
 
@@ -295,14 +343,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_SPC);
                 tap_code(KC_C);
                 tap_code(KC_A);
-                clear_keyboard_but_mods();
             }
+            return false;
         case NVIM_MARK:
             if (record->event.pressed) {
                 tap_code(UK_BSLS);
                 tap_code(KC_M);
-                clear_keyboard_but_mods();
             }
+            return false;
+        case NVIM_PD:
+            if (record->event.pressed) {
+                tap_code(UK_LBRC);
+                tap_code(KC_G);
+            }
+            return false;
+        case NVIM_ND:
+            if (record->event.pressed) {
+                tap_code(UK_RBRC);
+                tap_code(KC_G);
+            }
+            return false;
     }
     return true;
 }

@@ -1,4 +1,5 @@
 #include "encoder.h"
+#include "models/layers_enum.h"
 
 // clang-format off
 #if defined(ENCODER_MAP_ENABLE)
@@ -8,7 +9,9 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_FUN] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [_SYM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [_NUM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_NVIM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) }
+    [_NVIM] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+    [_GAME] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+    [_GAMEFN] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
 };
 #endif
 // clang-format on

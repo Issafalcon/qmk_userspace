@@ -4,6 +4,6 @@
 #include "models/layers_enum.h"
 
 // clang-format off
-extern const uint16_t PROGMEM encoder_map[6][NUM_ENCODERS][NUM_DIRECTIONS];
+extern const uint16_t PROGMEM encoder_map[8][NUM_ENCODERS][NUM_DIRECTIONS];
 // clang-format on
 #endif

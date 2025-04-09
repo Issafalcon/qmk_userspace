@@ -8,6 +8,8 @@ enum layers {
     _SYM,        // symbols layer
     _NUM,        // numbers layer
     _NVIM,       // nvim layer
+    _GAME,       // gaming layer
+    _GAMEFN,     // gaming function layer
 };
 
 #endif // LAYERS_H
