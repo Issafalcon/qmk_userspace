@@ -1,0 +1,3 @@
+[submodule "keyboards/keebart/sofle_choc_pro/keymaps/issafalcon/qmk-vim"]
+	path = keyboards/keebart/sofle_choc_pro/keymaps/issafalcon/qmk-vim
+	url = https://github.com/andrewjrae/qmk-vim.git

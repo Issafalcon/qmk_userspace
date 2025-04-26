@@ -12,6 +12,7 @@
 #include "models/layers_enum.h"
 #include "features/chordal_hold.h"
 #include "features/encoder.h"
+#include "qmk-vim/src/vim.h"
 
 #define HOME_A LGUI_T(KC_A)
 #define HOME_S LALT_T(KC_S)
@@ -57,6 +58,7 @@ enum custom_keycodes {
     NVIM_MARK,
     NVIM_PD,
     NVIM_ND,
+    TOG_VIM
 };
 
 const uint16_t PROGMEM shift_combo[] = {TAB, BSPC, COMBO_END};
@@ -67,7 +69,7 @@ combo_t key_combos[] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌───────────────┬────────┬────────┬────────┬────────┬──────┐                                 ┌─────┬────────┬────────┬────────┬───────────┬───────────┐
-//    │      no       │   1    │   2    │   3    │   4    │  5   │                                 │  6  │   7    │   8    │   9    │     0     │ TG(_GAME) │
+//    │    TOG_VIM    │   1    │   2    │   3    │   4    │  5   │                                 │  6  │   7    │   8    │   9    │     0     │ TG(_GAME) │
 //    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼───────────┤
 //    │      tab      │   q    │   w    │   e    │   r    │  t   │                                 │  y  │   u    │   i    │   o    │     p     │   bspc    │
 //    ├───────────────┼────────┼────────┼────────┼────────┼──────┤                                 ├─────┼────────┼────────┼────────┼───────────┼───────────┤
@@ -78,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                      │   no   │  lgui  │ tMUX │ TAB  │ SPACE │   │ ENTER │ BSPC │ DEL │   no   │   no   │
 //                                      └────────┴────────┴──────┴──────┴───────┘   └───────┴──────┴─────┴────────┴────────┘
 [_QWERTY] = LAYOUT_split_4x6_5(
-  XXXXXXX       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6 , KC_7    , KC_8    , KC_9   , KC_0      , TG(_GAME),
+  TOG_VIM       , KC_1   , KC_2   , KC_3    , KC_4    , KC_5    ,                                         KC_6 , KC_7    , KC_8    , KC_9   , KC_0      , TG(_GAME),
   KC_TAB        , KC_Q   , KC_W   , KC_E    , KC_R    , KC_T    ,                                         KC_Y , KC_U    , KC_I    , KC_O   , KC_P      , KC_BSPC  ,
   KC_ESC        , HOME_A , HOME_S , HOME_D  , HOME_F  , KC_G    ,                                         KC_H , HOME_J  , HOME_K  , HOME_L , HOME_SCLN , KC_GRV   ,
   OSM(MOD_LSFT) , KC_Z   , KC_X   , KC_C    , KC_V    , KC_B    , KC_MUTE ,                     KC_MPLY , KC_N , KC_M    , KC_COMM , KC_DOT , KC_SLSH   , KC_QUOT  ,
@@ -128,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├────────────┼─────┼───────┼────────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
 //    │            │     │       │        │       │        │                           │     │  7  │  8  │  9  │     │     │
 //    ├────────────┼─────┼───────┼────────┼───────┼────────┤                           ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │   CT_TAB   │     │ O_GUI │ O_LALT │ O_SFT │ O_CTL  │                           │     │  4  │  5  │  6  │  0  │     │
+//    │   CT_TAB   │     │ O_GUI │ O_LALT │ O_SFT │ O_CTL  │                           │  0  │  4  │  5  │  6  │     │     │
 //    ├────────────┼─────┼───────┼────────┼───────┼────────┼─────┐               ┌─────┼─────┼─────┼─────┼─────┼─────┼─────┤
 //    │ CT_SFT_TAB │     │       │        │       │ O_RALT │     │               │     │     │  1  │  2  │  3  │     │     │
 //    └────────────┴─────┴───────┼────────┼───────┼────────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┼─────┼─────┴─────┴─────┘
@@ -137,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_NUM] = LAYOUT_split_4x6_5(
   _______    , _______ , _______ , _______ , _______ , _______ ,                                             _______ , _______ , _______ , _______ , _______ , _______,
   _______    , _______ , _______ , _______ , _______ , _______ ,                                             _______ , KC_7    , KC_8    , KC_9    , _______ , _______,
-  CT_TAB     , _______ , O_GUI   , O_LALT  , O_SFT   , O_CTL   ,                                             _______ , KC_4    , KC_5    , KC_6    , KC_0    , _______,
+  CT_TAB     , _______ , O_GUI   , O_LALT  , O_SFT   , O_CTL   ,                                             KC_0    , KC_4    , KC_5    , KC_6    , _______ , _______,
   CT_SFT_TAB , _______ , _______ , _______ , _______ , O_RALT  , _______ ,                         _______ , _______ , KC_1    , KC_2    , KC_3    , _______ , _______,
                                    _______ , _______ , _______ , _______ , _______ ,     _______ , _______ , _______ , _______ , _______
 ),
@@ -259,6 +261,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     update_swapper(&alt_tab_active, KC_LALT, KC_TAB, ALT_TAB, ALT_SFT_TAB, &sft_grv_active, keycode, record);
     update_swapper(&sft_grv_active, KC_LALT, KC_GRV, ALT_SFT_TAB, ALT_TAB, &alt_tab_active, keycode, record);
 
+    if (!process_vim_mode(keycode, record)) {
+        return false;
+    }
+
     switch (keycode) {
         case KC_QWERTY:
             if (record->event.pressed) {
@@ -338,6 +344,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_B);
             }
             return false;
+        case TOG_VIM:
+            if (record->event.pressed) {
+                toggle_vim_mode();
+            }
+            return false;
         case NVIM_CA:
             if (record->event.pressed) {
                 tap_code(KC_SPC);
@@ -392,36 +403,36 @@ bool caps_word_press_user(uint16_t keycode) {
     }
 }
 
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case SPACE:
-        case ENTER:
-        case HOME_D:
-        case HOME_K:
-            // Immediately select the hold action when another key is pressed.
-            return true;
-        default:
-            // Do not select the hold action when another key is pressed.
-            return false;
-    }
-}
-
-bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        // Everything except home row shift mods and NAV and SYM layer mods
-        case HOME_A:
-        case HOME_S:
-        case HOME_F:
-        case HOME_J:
-        case HOME_L:
-        case HOME_SCLN:
-        case TAB:
-        case BSPC:
-        case R_BSPC:
-            // Immediately select the hold action when another key is tapped.
-            return true;
-        default:
-            // Do not select the hold action when another key is tapped.
-            return false;
-    }
-}
+/* bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         case SPACE: */
+/*         case ENTER: */
+/*         case HOME_D: */
+/*         case HOME_K: */
+/*             // Immediately select the hold action when another key is pressed. */
+/*             return true; */
+/*         default: */
+/*             // Do not select the hold action when another key is pressed. */
+/*             return false; */
+/*     } */
+/* } */
+/**/
+/* bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         // Everything except home row shift mods and NAV and SYM layer mods */
+/*         case HOME_A: */
+/*         case HOME_S: */
+/*         case HOME_F: */
+/*         case HOME_J: */
+/*         case HOME_L: */
+/*         case HOME_SCLN: */
+/*         case TAB: */
+/*         case BSPC: */
+/*         case R_BSPC: */
+/*             // Immediately select the hold action when another key is tapped. */
+/*             return true; */
+/*         default: */
+/*             // Do not select the hold action when another key is tapped. */
+/*             return false; */
+/*     } */
+/* } */
