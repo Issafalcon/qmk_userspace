@@ -403,36 +403,36 @@ bool caps_word_press_user(uint16_t keycode) {
     }
 }
 
-/* bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) { */
-/*     switch (keycode) { */
-/*         case SPACE: */
-/*         case ENTER: */
-/*         case HOME_D: */
-/*         case HOME_K: */
-/*             // Immediately select the hold action when another key is pressed. */
-/*             return true; */
-/*         default: */
-/*             // Do not select the hold action when another key is pressed. */
-/*             return false; */
-/*     } */
-/* } */
-/**/
-/* bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) { */
-/*     switch (keycode) { */
-/*         // Everything except home row shift mods and NAV and SYM layer mods */
-/*         case HOME_A: */
-/*         case HOME_S: */
-/*         case HOME_F: */
-/*         case HOME_J: */
-/*         case HOME_L: */
-/*         case HOME_SCLN: */
-/*         case TAB: */
-/*         case BSPC: */
-/*         case R_BSPC: */
-/*             // Immediately select the hold action when another key is tapped. */
-/*             return true; */
-/*         default: */
-/*             // Do not select the hold action when another key is tapped. */
-/*             return false; */
-/*     } */
-/* } */
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SPACE:
+        case ENTER:
+        case HOME_D:
+        case HOME_K:
+            // Immediately select the hold action when another key is pressed.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        // Everything except home row shift mods and NAV and SYM layer mods
+        case HOME_A:
+        case HOME_S:
+        case HOME_F:
+        case HOME_J:
+        case HOME_L:
+        case HOME_SCLN:
+        case TAB:
+        case BSPC:
+        case R_BSPC:
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
+    }
+}
