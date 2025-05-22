@@ -6,5 +6,4 @@
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define PERMISSIVE_HOLD_PER_KEY
 
-// Additional config from https://github.com/ghostbuster91/qmk_firmware/blob/e9951d5d2d265b542732f3e09b7dfe4f193760eb/keyboards/splitkb/kyria/keymaps/ghostbuster91/config.h
-// #define PERMISSIVE_HOLD
+#define SPLIT_TRANSPORT_MIRROR
