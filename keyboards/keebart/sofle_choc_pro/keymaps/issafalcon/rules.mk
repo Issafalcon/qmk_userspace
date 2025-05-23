@@ -3,6 +3,7 @@ CAPS_WORD_ENABLE = yes
 COMBO_ENABLE = yes
 SRC += features/chordal_hold.c
 SRC += features/encoder.c
+SRC += features/custom_rgb.c
 SRC += models/layers_enum.c
 
 include $(MAIN_KEYMAP_PATH_1)/qmk-vim/rules.mk
