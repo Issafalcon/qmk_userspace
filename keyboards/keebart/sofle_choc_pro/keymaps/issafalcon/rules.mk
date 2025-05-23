@@ -1,10 +1,8 @@
 ENCODER_MAP_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 COMBO_ENABLE = yes
-RGB_MATRIX_SPLIT = yes
 SRC += features/chordal_hold.c
 SRC += features/encoder.c
-SRC += features/rgb_matrix.c
 SRC += models/layers_enum.c
 
 include $(MAIN_KEYMAP_PATH_1)/qmk-vim/rules.mk
