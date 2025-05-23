@@ -182,23 +182,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   _______ , _______ , _______ , _______ , _______ ,     _______ , _______ , _______ , _______ , _______
 ),
 
-//    ┌──────┬───┬───┬────┬─────┬──────┐                                       ┌────┬────┬────┬────┬────┬───────────┐
-//    │ esc  │ 1 │ 2 │ 3  │  4  │  5   │                                       │ no │ no │ no │ no │ no │ TG(_GAME) │
-//    ├──────┼───┼───┼────┼─────┼──────┤                                       ├────┼────┼────┼────┼────┼───────────┤
-//    │ tab  │ q │ w │ e  │  r  │  t   │                                       │ no │ no │ no │ no │ no │    no     │
-//    ├──────┼───┼───┼────┼─────┼──────┤                                       ├────┼────┼────┼────┼────┼───────────┤
-//    │ lctl │ a │ s │ d  │  f  │  g   │                                       │ no │ no │ no │ no │ no │    no     │
-//    ├──────┼───┼───┼────┼─────┼──────┼──────┐                           ┌────┼────┼────┼────┼────┼────┼───────────┤
-//    │ lsft │ z │ x │ c  │  v  │  b   │  no  │                           │ no │ no │ no │ no │ no │ no │    no     │
-//    └──────┴───┴───┼────┼─────┼──────┼──────┼──────────────────┐   ┌────┼────┼────┼────┼────┼────┴────┴───────────┘
-//                   │ no │ spc │ lalt │ lalt │ LT(_GAMEFN, spc) │   │ no │ no │ no │ no │ no │
-//                   └────┴─────┴──────┴──────┴──────────────────┘   └────┴────┴────┴────┴────┘
+//    ┌──────┬───┬───┬────┬─────┬──────┐                                      ┌────┬────┬────┬────┬────┬───────────┐
+//    │ esc  │ 1 │ 2 │ 3  │  4  │  5   │                                      │ no │ no │ no │ no │ no │ TG(_GAME) │
+//    ├──────┼───┼───┼────┼─────┼──────┤                                      ├────┼────┼────┼────┼────┼───────────┤
+//    │ tab  │ q │ w │ e  │  r  │  t   │                                      │ no │ no │ no │ no │ no │    no     │
+//    ├──────┼───┼───┼────┼─────┼──────┤                                      ├────┼────┼────┼────┼────┼───────────┤
+//    │ lctl │ a │ s │ d  │  f  │  g   │                                      │ no │ no │ no │ no │ no │    no     │
+//    ├──────┼───┼───┼────┼─────┼──────┼─────┐                           ┌────┼────┼────┼────┼────┼────┼───────────┤
+//    │ lsft │ z │ x │ c  │  v  │  b   │ no  │                           │ no │ no │ no │ no │ no │ no │    no     │
+//    └──────┴───┴───┼────┼─────┼──────┼─────┼──────────────────┐   ┌────┼────┼────┼────┼────┼────┴────┴───────────┘
+//                   │ no │ spc │ lalt │ ent │ LT(_GAMEFN, spc) │   │ no │ no │ no │ no │ no │
+//                   └────┴─────┴──────┴─────┴──────────────────┘   └────┴────┴────┴────┴────┘
 [_GAME] = LAYOUT_split_4x6_5(
   KC_ESC  , KC_1 , KC_2 , KC_3    , KC_4   , KC_5    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , TG(_GAME),
   KC_TAB  , KC_Q , KC_W , KC_E    , KC_R   , KC_T    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
   KC_LCTL , KC_A , KC_S , KC_D    , KC_F   , KC_G    ,                                                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
   KC_LSFT , KC_Z , KC_X , KC_C    , KC_V   , KC_B    , XXXXXXX ,                                     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
-                          XXXXXXX , KC_SPC , KC_LALT , KC_LALT , LT(_GAMEFN, KC_SPC) ,     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
+                          XXXXXXX , KC_SPC , KC_LALT , KC_ENT  , LT(_GAMEFN, KC_SPC) ,     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
 ),
 
 //    ┌────┬────┬────┬────┬─────┬────┐                       ┌────┬────┬────┬────┬────┬───────────┐
