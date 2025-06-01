@@ -407,6 +407,8 @@ bool caps_word_press_user(uint16_t keycode) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case ENTER:
+        case HOME_D:
+        case HOME_K:
             // Immediately select the hold action when another key is pressed.
             return true;
         default:
@@ -417,8 +419,6 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case HOME_D:
-        case HOME_K:
         case HOME_A:
         case HOME_S:
         case HOME_F:

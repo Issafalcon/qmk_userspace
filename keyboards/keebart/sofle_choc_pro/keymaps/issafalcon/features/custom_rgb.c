@@ -1,6 +1,7 @@
 #include "custom_rgb.h"
 #include <stdint.h>
 #include "action_layer.h"
+#include "config.h"
 #include "models/layers_enum.h"
 #include "rgb_matrix.h"
 
