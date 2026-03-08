@@ -26,3 +26,38 @@ Enter the bootloader in 3 ways:
 - **Bootmagic reset**: Hold down the top left key of the left side of the keyboard while connecting the left side to the computer. Similarly, hold down the top right key of the right side of the keyboard while connecting the right side to the computer.
 - **Physical reset button**: Briefly press the button on the back of the PCB
 - **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available
+
+# Key indexes
+
+## **Left Half** (rows 0–4, cols 0–5, thumbs: [4,0]–[4,4])
+
+```
+[ 26][ 25][ 24][ 23][ 22][ 21]
+[ 13][ 12][ 11][ 10][  9][  8]
+[  0][  1][  2][  3][  4][  5]
+[ 14][ 15][ 16][ 17][ 18][ 19]
+    [ 48][ 49][ 50][ 51][ 52]
+```
+
+## **Right Half** (rows 5–9, cols 0–5, thumbs: [9,0]–[9,4])
+
+```
+[ 56][ 55][ 54][ 53][ 52][ 51]
+[ 43][ 42][ 41][ 40][ 39][ 38]
+[ 30][ 31][ 32][ 33][ 34][ 35]
+[ 44][ 45][ 46][ 47][ 48][ 49]
+    [ 57][ 58][ 59][ 60][ 61]
+```
+
+**Note:**
+
+- The numbers in brackets are the RGB matrix indices.
+- The arrangement is based on the order in your `"rgb_matrix"` → `"layout"` array and the physical layout described by `"LAYOUT_split_4x6_5"`.
+
+---
+
+### **How to Use**
+
+- To set the color for a key, use the index shown in the diagram with `rgb_matrix_set_color(index, ...)`.
+- For example, the top left key on the left split (`[0,0]`) is index **26**.
+- The top right key on the right split (`[5,5]`) is index **56**.
