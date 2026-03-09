@@ -59,9 +59,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 color = (rgb_t){RGB_PURPLE};
                 break;
         }
-        for (uint8_t i = led_min; i < led_max; i++) {
-            rgb_matrix_set_color(i, color.r, color.g, color.b);
-        }
+        rgb_matrix_set_color_all(color.r, color.g, color.b);
     } else {
         uint8_t layer     = get_highest_layer(layer_state);
         rgb_t   coral     = {RGB_CORAL};
